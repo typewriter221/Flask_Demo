@@ -6,25 +6,25 @@ import plotly.express as px
 import plotly.graph_objects as go
 from joblib import load
 import os 
-
+import uuid
 app = Flask(__name__)
 model = load('model.joblib')
-count_id = 0
+
 TRAINING_DATA = "AgesAndHeights.pkl"
 @app.route("/", methods = ['GET', 'POST'])
 def hello_world():
-    global count_id
+    
     request_type = request.method
 
     if request_type == 'GET':
-        return render_template('index.html', href = "satic/dummy.svg")
+        return render_template('index.html', href='static/base_pic.svg')
     if request_type == 'POST':
         input = request.form['ages']
         inputs = string_to_float(input)
-        OUT_PATH = "static/"+str(count_id)+".svg"
+        random_string = uuid.uuid4().hex
+        OUT_PATH = 'static/'+random_string+'.svg'
         make_picture(TRAINING_DATA, model, inputs,OUT_PATH )
-        count_id += 1
-        # print(path)
+        
         return render_template('index.html', href = OUT_PATH)
 
     # model = load('model.joblib')
