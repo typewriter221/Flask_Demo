@@ -8,12 +8,12 @@ from joblib import load
 import os 
 import uuid
 app = Flask(__name__)
-model = load('model.joblib')
 
-TRAINING_DATA = "AgesAndHeights.pkl"
 @app.route("/", methods = ['GET', 'POST'])
 def hello_world():
-    
+    model = load('app/model.joblib')
+
+    TRAINING_DATA = "app/AgesAndHeights.pkl"
     request_type = request.method
 
     if request_type == 'GET':
@@ -22,10 +22,10 @@ def hello_world():
         input = request.form['ages']
         inputs = string_to_float(input)
         random_string = uuid.uuid4().hex
-        OUT_PATH = 'static/'+random_string+'.svg'
+        OUT_PATH = 'app/static/'+random_string+'.svg'
         make_picture(TRAINING_DATA, model, inputs,OUT_PATH )
         
-        return render_template('index.html', href = OUT_PATH)
+        return render_template('index.html', href = OUT_PATH[4:])
 
     # model = load('model.joblib')
     # input = [[20],[30]]
