@@ -48,7 +48,7 @@ def make_picture(training_data, model, inputs, OUT_PATH):
     fig.write_image(OUT_PATH, width = 800, engine = 'kaleido')
     
     
-    # fig.show()
+    fig.show()
 
 
 def string_to_float(st):
